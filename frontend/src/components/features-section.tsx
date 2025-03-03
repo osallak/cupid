@@ -72,7 +72,7 @@ export function FeaturesSection() {
               <div className="relative">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
                   <Image
-                    src="/images/hero/couple-testimonial.jpg"
+                    src="/images/hero/couple-testimonial.png"
                     alt="Happy couple"
                     width={500}
                     height={375}
@@ -93,14 +93,15 @@ export function FeaturesSection() {
 
               <div>
                 <p className="text-lg italic text-muted-foreground mb-6">
-                  "I never thought I'd find someone who truly understands me.
-                  Thanks to Cupid's matching algorithm, I met my soulmate. We've
-                  been together for 8 months now and couldn't be happier!"
+                  &ldquo;I never thought I&apos;d find someone who truly
+                  understands me. Thanks to Cupid&apos;s matching algorithm, I
+                  met my soulmate. We&apos;ve been together for 8 months now and
+                  couldn&apos;t be happier!&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full overflow-hidden">
                     <Image
-                      src="/images/hero/testimonial-avatar.jpg"
+                      src="/images/hero/testimonial-avatar.png"
                       alt="Jessica"
                       width={48}
                       height={48}
