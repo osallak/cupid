@@ -1,0 +1,7 @@
+[Cursor] feat: implement core UI components and auth pages
+
+- Add authentication pages (sign-in, sign-up)
+- Implement core UI components (buttons, cards)
+- Add floating hearts animation
+- Update layout with consistent styling
+- Add global styles and utilities
