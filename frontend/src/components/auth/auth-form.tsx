@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type: "signin" | "signup";
@@ -101,7 +100,12 @@ export function AuthForm({ type, className, ...props }: AuthFormProps) {
                 disabled={isLoading}
               />
             </div>
-            <Button className="w-full" disabled={isLoading}>
+            <Button
+              className="mx-auto block"
+              size="compact"
+              variant="gradient"
+              disabled={isLoading}
+            >
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}

@@ -33,7 +33,7 @@ export default function SignInPage() {
 
       {/* Auth Form Card */}
       <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-200 dark:shadow-slate-900/20 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors p-6">
+        <div className="bg-white dark:bg-[#2a0f1c]/80 rounded-2xl shadow-xl shadow-slate-200 dark:shadow-pink-950/10 border border-slate-200 dark:border-pink-950/30 hover:border-slate-300 dark:hover:border-pink-900/40 transition-colors p-6">
           <AuthForm type="signin" />
         </div>
       </div>

@@ -85,9 +85,39 @@ export function HeroSection() {
 
           {/* Right side - Image and stats */}
           <div className="relative">
+            {/* Stats cards - adjusted position to avoid overlapping with text */}
+            <div className="hidden lg:flex flex-col gap-4 absolute top-1/3 -left-16 z-20">
+              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">95%</p>
+                    <p className="text-xs text-muted-foreground">Match Rate</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">1000+</p>
+                    <p className="text-xs text-muted-foreground">
+                      Happy Couples
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Main success story image */}
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-pink-100 dark:border-pink-900/30 transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
               <Image
-                src="/images/hero/couple.jpg"
+                src="/images/hero/couple.png"
                 alt="Happy couple"
                 width={600}
                 height={800}
@@ -105,27 +135,31 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Stats cards */}
-            <div className="absolute -bottom-6 -left-6 z-20 bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-pink-500" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-pink-500">95%</p>
-                  <p className="text-xs text-muted-foreground">Match Rate</p>
+            {/* Mobile stats cards */}
+            <div className="flex lg:hidden justify-between mt-6">
+              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">95%</p>
+                    <p className="text-xs text-muted-foreground">Match Rate</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="absolute -top-6 -right-6 z-20 bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-pink-500" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-pink-500">1000+</p>
-                  <p className="text-xs text-muted-foreground">Happy Couples</p>
+              <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">1000+</p>
+                    <p className="text-xs text-muted-foreground">
+                      Happy Couples
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

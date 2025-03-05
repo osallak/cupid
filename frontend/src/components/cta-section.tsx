@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { Heart, Sparkles, Check } from "lucide-react";
 
 export function CTASection() {
   return (
@@ -16,41 +16,128 @@ export function CTASection() {
       <div className="absolute bottom-20 left-10 w-60 h-60 rounded-full bg-rose-100/30 dark:bg-rose-900/20 blur-3xl" />
 
       <div className="container relative">
-        <div className="rounded-3xl overflow-hidden bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/50 dark:to-rose-900/50 p-1 shadow-xl">
-          <div className="bg-white dark:bg-gray-900 rounded-[1.4rem] p-8 md:p-12 relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute -top-4 -left-4 w-32 h-32">
-                <Heart className="w-full h-full" />
-              </div>
-              <div className="absolute top-1/4 right-1/4 w-16 h-16">
-                <Heart className="w-full h-full" />
-              </div>
-              <div className="absolute bottom-1/3 left-1/3 w-24 h-24">
-                <Heart className="w-full h-full" />
-              </div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32">
-                <Heart className="w-full h-full" />
+        {/* Heading */}
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 dark:bg-pink-950/50 text-pink-600 dark:text-pink-300 shadow-sm mb-6">
+            <Heart className="w-4 h-4 fill-current" />
+            <span className="text-sm font-medium">Limited Time Offer</span>
+          </div>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
+            Your <span className="text-pink-500">Perfect Match</span> is Waiting
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Join thousands of singles who have already found meaningful
+            connections.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          {/* Left side - Success stories */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-white dark:bg-gray-900/80 dark:backdrop-blur-sm rounded-2xl shadow-xl border border-pink-100 dark:border-pink-900/30 p-6 transform transition-all hover:translate-y-[-5px]">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-pink-100 dark:border-pink-800">
+                  <Image
+                    src="/images/hero/couple-cta.png"
+                    alt="Emma & James"
+                    width={64}
+                    height={64}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Heart className="w-4 h-4 text-pink-500 fill-current" />
+                    <span className="text-sm font-medium text-pink-500">
+                      Success Story
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold">Emma & James</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Matched 1 year ago • Now engaged
+                  </p>
+                  <p className="mt-3 text-sm italic">
+                    &ldquo;Cupid&apos;s matching algorithm brought us together
+                    when we least expected it. We&apos;re proof that true love
+                    exists!&rdquo;
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center relative">
-              <div className="text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 dark:bg-pink-950/50 text-pink-600 dark:text-pink-300 shadow-sm mb-6">
-                  <Heart className="w-4 h-4 fill-current" />
-                  <span className="text-sm font-medium">
-                    Limited Time Offer
-                  </span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white dark:bg-gray-900/80 dark:backdrop-blur-sm rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">95%</p>
+                    <p className="text-xs text-muted-foreground">Match Rate</p>
+                  </div>
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
-                  Your <span className="text-pink-500">Perfect Match</span> is
-                  Waiting
-                </h2>
-                <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto md:mx-0">
-                  Join thousands of singles who have already found meaningful
-                  connections. Start your journey to love today.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              </div>
+              <div className="bg-white dark:bg-gray-900/80 dark:backdrop-blur-sm rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-pink-500 fill-current" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-pink-500">92%</p>
+                    <p className="text-xs text-muted-foreground">
+                      Success Rate
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - CTA card */}
+          <div className="lg:col-span-7">
+            <div className="bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/50 dark:to-rose-900/50 p-1 rounded-2xl shadow-xl">
+              <div className="bg-white dark:bg-gray-900/95 dark:backdrop-blur-md rounded-xl p-8">
+                <h3 className="text-2xl font-bold mb-6">
+                  Start Your Journey Today
+                </h3>
+
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-pink-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium">7-day free trial</p>
+                      <p className="text-sm text-muted-foreground">
+                        No credit card required to get started
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-pink-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Intelligent matching</p>
+                      <p className="text-sm text-muted-foreground">
+                        Our AI algorithm finds your perfect match
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center mt-0.5">
+                      <Check className="w-3.5 h-3.5 text-pink-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Success guarantee</p>
+                      <p className="text-sm text-muted-foreground">
+                        Find your match or get 3 months free
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     size="lg"
                     className="text-lg h-12 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white border-0 shadow-md hover:shadow-lg transition-all"
@@ -67,16 +154,12 @@ export function CTASection() {
                     <Link href="/pricing">View Plans</Link>
                   </Button>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground">
-                  No credit card required. 7-day free trial.
-                </p>
 
-                {/* Testimonial */}
-                <div className="mt-8 flex items-center gap-4 justify-center md:justify-start">
+                <div className="mt-8 flex items-center gap-4">
                   <div className="flex -space-x-2">
                     <div className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-900 overflow-hidden">
                       <Image
-                        src="/images/hero/avatar-1.jpg"
+                        src="/images/hero/avatar-1.png"
                         alt="User"
                         width={32}
                         height={32}
@@ -85,7 +168,7 @@ export function CTASection() {
                     </div>
                     <div className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-900 overflow-hidden">
                       <Image
-                        src="/images/hero/avatar-2.jpg"
+                        src="/images/hero/avatar-2.png"
                         alt="User"
                         width={32}
                         height={32}
@@ -94,7 +177,7 @@ export function CTASection() {
                     </div>
                     <div className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-900 overflow-hidden">
                       <Image
-                        src="/images/hero/avatar-3.jpg"
+                        src="/images/hero/avatar-1.png"
                         alt="User"
                         width={32}
                         height={32}
@@ -113,39 +196,6 @@ export function CTASection() {
                       <span className="ml-1 font-medium">5.0</span>
                     </div>
                     <p className="text-muted-foreground">from 2,000+ reviews</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative hidden md:block">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-pink-100 dark:border-pink-900/30 transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                  <Image
-                    src="/images/hero/couple-cta.jpg"
-                    alt="Happy couple"
-                    width={400}
-                    height={533}
-                    className="object-cover w-full h-full"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6 text-white">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Heart className="w-5 h-5 text-pink-300 fill-current" />
-                      <span className="text-sm font-medium text-pink-200">
-                        Success Story
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold">Emma & James</h3>
-                    <p className="text-sm text-gray-200">
-                      Matched 1 year ago • Now engaged
-                    </p>
-                  </div>
-                </div>
-
-                {/* Stats card */}
-                <div className="absolute -bottom-4 -left-4 bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-pink-100 dark:border-pink-900/30 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-                  <p className="text-sm font-medium mb-1">Success Rate</p>
-                  <div className="flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-pink-500 fill-current" />
-                    <p className="text-xl font-bold text-pink-500">92%</p>
                   </div>
                 </div>
               </div>

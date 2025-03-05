@@ -1,28 +1,20 @@
 import {
-  AlertTriangle,
   ArrowRight,
-  Check,
   ChevronLeft,
   ChevronRight,
   Command,
-  CreditCard,
-  File,
-  FileText,
   Github,
   HelpCircle,
-  Image,
   Laptop,
   Loader2,
   Moon,
-  MoreVertical,
   Pizza,
-  Plus,
   Settings,
   SunMedium,
   Trash,
   User,
   X,
-  type LucideIcon,
+  type LucideIcon
 } from "lucide-react";
 
 export type Icon = LucideIcon;
