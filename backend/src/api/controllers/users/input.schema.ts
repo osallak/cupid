@@ -1,7 +1,9 @@
 import { z } from 'zod';
 import 'zod-openapi';
+import { createId } from '@paralleldrive/cuid2';
 
 const createUser = z.object({
+    id: z.string().transform(() => createId()),
     username: z.string(),//.openapi({ description: "The username of the user" , example: "johndoe" }),
     email: z.string().email(),
     password: z.string(),

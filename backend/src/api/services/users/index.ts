@@ -21,7 +21,6 @@ async function create(user: userCreateInputType) {
     const newUser = await db.insertInto("users")
         .values({
             ...user,
-            id: '', // Add the missing id property
             created_at: new Date(), // Convert the number to a Date object
         })
         .executeTakeFirst();
