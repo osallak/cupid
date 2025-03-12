@@ -1,7 +1,8 @@
 import { Hono } from "hono";
-import { swaggerUI } from "@hono/swagger-ui";
 import { userController } from "./controllers/users";
 import { auth } from "../lib/auth";
+import { apiReference} from '@scalar/hono-api-reference'
+import { openAPISpecs } from 'hono-openapi'
 
 const app = new Hono();
 
@@ -11,15 +12,30 @@ app
 
 app.on(["GET", "POST"], ["../lib/auth/**"], (c) => auth.handler(c.req.raw));
 
-// Use the middleware to serve Swagger UI at /ui
-app.get('/ui', swaggerUI({ url: '/doc' }))
+app.get('/docs', 
+    apiReference({
+        theme: 'dark',
+        spec: {
+            url: '/openapi'
+        },
+    })
+);
 
-// // Serve Swagger UI
-// app.get("/ui", (c: any) => {
-//     return c.html(swaggerUI({ url: "/openapi.json" }));
-// });
 
-//   // Serve OpenAPI JSON
-// app.get("/docs", (c: any) => c.json(app.getOpenAPIJson()));
+app.get(
+  '/openapi',
+  openAPISpecs(app, {
+    documentation: {
+      info: {
+        title: 'Hono API',
+        version: '1.0.0',
+        description: 'Greeting API',
+      },
+      servers: [
+        { url: 'http://localhost:8000', description: 'Local Server' },
+      ],
+    },
+  })
+)
 
 export default app;

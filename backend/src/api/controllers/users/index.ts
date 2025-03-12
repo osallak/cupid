@@ -1,6 +1,4 @@
 import { Hono } from "hono";
-import { db } from "../../../config/db";
-import { swaggerUI } from "@hono/swagger-ui";
 import { describeRoute } from 'hono-openapi'
 
 import { Schema, z } from "zod";
