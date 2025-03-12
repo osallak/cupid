@@ -1,12 +1,15 @@
 import { Hono } from "hono";
 import { swaggerUI } from "@hono/swagger-ui";
 import { userController } from "./controllers/users";
+import { auth } from "../lib/auth";
 
 const app = new Hono();
 
 app
 .basePath("/api")
 .route("/users", userController);
+
+app.on(["GET", "POST"], ["../lib/auth/**"], (c) => auth.handler(c.req.raw));
 
 // Use the middleware to serve Swagger UI at /ui
 app.get('/ui', swaggerUI({ url: '/doc' }))
