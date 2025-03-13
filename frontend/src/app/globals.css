@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/hearts.css";
 
 @plugin "tailwindcss-animate";
 
@@ -48,9 +49,9 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: oklch(0.17 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
+  --popover: oklch(0.17 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.205 0 0);
@@ -126,4 +127,95 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background-image: radial-gradient(
+      circle at center,
+      var(--tw-gradient-stops)
+    );
+  }
+}
+
+@keyframes float-heart {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animate-float-heart {
+  animation: float-heart linear infinite;
+  animation-duration: 30s;
+}
+
+/* Fix for react-day-picker */
+.rdp-head_row {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  margin-bottom: 10px !important;
+}
+
+.rdp-head_cell {
+  width: auto !important;
+  text-align: center !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+}
+
+.rdp-row {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  margin-top: 6px !important;
+}
+
+.rdp-cell {
+  width: auto !important;
+  text-align: center !important;
+}
+
+.rdp-day {
+  margin: 0 auto !important;
+  width: 36px !important;
+  max-width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.rdp-caption {
+  display: flex !important;
+  justify-content: center !important;
+  position: relative !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
+}
+
+.rdp-nav {
+  position: absolute !important;
+  display: flex !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+}
+
+.rdp-caption_label {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.rdp-months {
+  margin: 0 !important;
 }

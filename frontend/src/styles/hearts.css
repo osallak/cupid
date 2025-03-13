@@ -1,0 +1,122 @@
+.hearts-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Create multiple hearts with different positions */
+.heart {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0;
+  animation: float var(--float-time) var(--float-delay) linear infinite;
+}
+
+/* Create a variety of different timings */
+.heart:nth-child(1) {
+  --float-time: 12s;
+  --float-delay: -0s;
+  left: 5%;
+}
+.heart:nth-child(2) {
+  --float-time: 14s;
+  --float-delay: -2s;
+  left: 15%;
+  transform: scale(1.2);
+}
+.heart:nth-child(3) {
+  --float-time: 16s;
+  --float-delay: -4s;
+  left: 25%;
+}
+.heart:nth-child(4) {
+  --float-time: 18s;
+  --float-delay: -6s;
+  left: 35%;
+  transform: scale(1.1);
+}
+.heart:nth-child(5) {
+  --float-time: 20s;
+  --float-delay: -8s;
+  left: 45%;
+}
+.heart:nth-child(6) {
+  --float-time: 13s;
+  --float-delay: -1s;
+  left: 55%;
+  transform: scale(1.2);
+}
+.heart:nth-child(7) {
+  --float-time: 15s;
+  --float-delay: -3s;
+  left: 65%;
+}
+.heart:nth-child(8) {
+  --float-time: 17s;
+  --float-delay: -5s;
+  left: 75%;
+  transform: scale(1.1);
+}
+.heart:nth-child(9) {
+  --float-time: 19s;
+  --float-delay: -7s;
+  left: 85%;
+}
+.heart:nth-child(10) {
+  --float-time: 21s;
+  --float-delay: -9s;
+  left: 95%;
+  transform: scale(1.2);
+}
+.heart:nth-child(11) {
+  --float-time: 11s;
+  --float-delay: -0.5s;
+  left: 10%;
+}
+.heart:nth-child(12) {
+  --float-time: 13s;
+  --float-delay: -2.5s;
+  left: 30%;
+  transform: scale(1.1);
+}
+.heart:nth-child(13) {
+  --float-time: 15s;
+  --float-delay: -4.5s;
+  left: 50%;
+}
+.heart:nth-child(14) {
+  --float-time: 17s;
+  --float-delay: -6.5s;
+  left: 70%;
+  transform: scale(1.2);
+}
+.heart:nth-child(15) {
+  --float-time: 19s;
+  --float-delay: -8.5s;
+  left: 90%;
+}
+
+/* Apply different scales to each heart */
+.heart:nth-child(odd) {
+  transform: scale(0.8);
+}
+.heart:nth-child(even) {
+  transform: scale(1.2);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(110vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(360deg);
+    opacity: 0;
+  }
+}
