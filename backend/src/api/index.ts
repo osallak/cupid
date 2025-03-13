@@ -1,16 +1,11 @@
-import express from 'express';
+import { serve } from '@hono/node-server';
+import app from "./app";
 
-import MessageResponse from '../interfaces/MessageResponse';
-import emojis from './emojis';
+const port = process.env.PORT || 3000;
 
-const router = express.Router();
+serve({
+    fetch: app.fetch,
+    port: Number(port),
+})
 
-router.get<{}, MessageResponse>('/', (req, res) => {
-  res.json({
-    message: 'API - 👋🌎🌍🌏',
-  });
-});
-
-router.use('/emojis', emojis);
-
-export default router;
+console.log(`Server running on port ${port}`);
