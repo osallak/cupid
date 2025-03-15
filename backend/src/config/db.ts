@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Kysely, PostgresDialect } from 'kysely';
+// import { Kysely, PostgresDialect } from 'kysely';
 import * as pg from 'pg';
 
 dotenv.config();
@@ -20,8 +20,8 @@ export const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
-export const dialect = new PostgresDialect({
-    pool: pool,
-});
+// export const dialect = new PostgresDialect({
+//     pool: pool,
+// });
 
-export const db = new Kysely<Database>({dialect});
+// export const db = new Kysely<Database>({dialect});
