@@ -1,48 +1,35 @@
-import { db } from "../../../config/db";
+import sql from "../../../config/db";
 import { userCreateInputType, userUpdateInputType } from "../../controllers/users/input.schema";
+import { response } from "../../../lib/server";
 
 async function getOne(id: string) {
-    const user = await db.selectFrom("users")
-        .where("id", "=", id)
-        .selectAll()
-        .executeTakeFirst();
-    return user;
-    
+    const user = await sql`
+        SELECT * FROM users WHERE id = ${id}`;
+    return user[0];
 }
 
 async function getAll() {
-    const users = await db.selectFrom("users")
-        .selectAll()
-        .execute();
-    return users;
+    return await sql`
+        SELECT * FROM users`;
 }
 
 async function create(user: userCreateInputType) {
-    const newUser = await db.insertInto("users")
-        .values({
-            ...user,
-            created_at: new Date(), // Convert the number to a Date object
-        })
-        .executeTakeFirst();
-    return newUser;
+    return await sql`
+        INSERT INTO users
+            values (user)
+        RETURNING user`;
 }
 
 async function update(id: string, user: userUpdateInputType) {
-    const updatedUser = await db.updateTable("users")
-        .set({
-            ...user,
-            //updated_at: new Date(), // Add the updated_at property
-        })
-        .where("id", "=", id)
-        .execute();
-    return updatedUser;
+    return QueryBuilderUpdate.updateTable('users')
+    .set({...user})
+    .where('id', '=', id)
+    .execute();
 }
 
 async function remove(id: string) {
-    const deletedUser = await db.deleteFrom("users")
-        .where("id", "=", id)
-        .execute();
-    return deletedUser;
+    return await sql`
+        DELETE FROM users WHERE id = ${id}`;
 }
 
 export const userService = {

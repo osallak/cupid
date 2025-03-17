@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-// import { Kysely, PostgresDialect } from 'kysely';
-import * as pg from 'pg';
+import postgres from 'postgres';
+
 
 dotenv.config();
 
@@ -16,12 +16,11 @@ interface Database {
     }; 
 }
 
-export const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
+const sql = postgres({
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    max: 10,
 });
 
-// export const dialect = new PostgresDialect({
-//     pool: pool,
-// });
-
-// export const db = new Kysely<Database>({dialect});
+export default sql;
