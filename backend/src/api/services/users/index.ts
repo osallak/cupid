@@ -1,6 +1,7 @@
 import sql from "../../../config/db";
 import { userCreateInputType, userUpdateInputType } from "../../controllers/users/input.schema";
 import { response } from "../../../lib/server";
+import { QueryBuilder } from "../../../config/querybuilder";
 
 async function getOne(id: string) {
     const user = await sql`
@@ -21,7 +22,7 @@ async function create(user: userCreateInputType) {
 }
 
 async function update(id: string, user: userUpdateInputType) {
-    return QueryBuilderUpdate.updateTable('users')
+    const {query} = QueryBuilder.Update.updateTable('users')
     .set({...user})
     .where('id', '=', id)
     .execute();
