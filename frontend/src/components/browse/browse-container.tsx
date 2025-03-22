@@ -26,6 +26,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { FloatingHearts } from "../floating-hearts";
 
 // Mock data for demo purposes - enhanced with more details
 const MOCK_USERS = [
@@ -76,16 +77,21 @@ const MOCK_USERS = [
 export function BrowseContainer() {
   const [users] = React.useState(MOCK_USERS);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [direction, setDirection] = React.useState<"left" | "right" | null>(null);
+  const [direction, setDirection] = React.useState<"left" | "right" | null>(
+    null
+  );
   const [outOfUsers, setOutOfUsers] = React.useState(false);
   const [showDetails, setShowDetails] = React.useState(false);
-  const [lastSwipedDirection, setLastSwipedDirection] = React.useState<string | null>(null);
+  const [lastSwipedDirection, setLastSwipedDirection] = React.useState<
+    string | null
+  >(null);
 
   const currentUser = users[currentIndex];
   const childRefs = React.useMemo(
     () =>
       Array(users.length)
         .fill(0)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .map(() => React.createRef<any>()),
     [users.length]
   );
@@ -102,13 +108,13 @@ export function BrowseContainer() {
   const handleSwipe = (direction: string) => {
     setDirection(direction as "left" | "right");
     setLastSwipedDirection(direction);
-    
-    if (direction === 'right') {
+
+    if (direction === "right") {
       console.log(`Liked user: ${currentUser.id}`);
-    } else if (direction === 'left') {
+    } else if (direction === "left") {
       console.log(`Passed on user: ${currentUser.id}`);
     }
-    
+
     // Add a small delay to allow animations to complete
     setTimeout(() => {
       goToNextUser();
@@ -144,8 +150,13 @@ export function BrowseContainer() {
   };
 
   return (
-    <div className="container py-6 px-4 md:py-10">
+    <div className=" py-6 px-4 md:py-10 bg-gradient-to-b from-pink-50 via-white to-white dark:from-pink-950 dark:via-background dark:to-background p-4 relative">
+      {/* <div className="min-h-screen flex flex-col items-center justify-center  */}
+
+      <FloatingHearts />
+
       {/* Header */}
+
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Discover</h1>
         <Sheet>
@@ -202,18 +213,24 @@ export function BrowseContainer() {
                   const isTopCard = index === currentIndex;
                   // Calculate stacking for cards behind the top card
                   const stackOffset = (index - currentIndex) * 4; // 4px offset for each card behind
-                  
+
                   return (
                     <div
                       key={user.id}
                       className={cn(
                         "absolute w-full h-full transition-transform",
-                        isTopCard ? "" : "scale-[0.98] pointer-events-none",
+                        isTopCard ? "" : "scale-[0.98] pointer-events-none"
                       )}
-                      style={{ 
+                      style={{
                         zIndex: users.length - index,
-                        transform: isTopCard ? undefined : `translateY(${stackOffset}px) scale(${1 - (index - currentIndex) * 0.02})`,
-                        opacity: isTopCard ? 1 : 1 - (index - currentIndex) * 0.2,
+                        transform: isTopCard
+                          ? undefined
+                          : `translateY(${stackOffset}px) scale(${
+                              1 - (index - currentIndex) * 0.02
+                            })`,
+                        opacity: isTopCard
+                          ? 1
+                          : 1 - (index - currentIndex) * 0.2,
                       }}
                     >
                       <UserCard
@@ -234,7 +251,7 @@ export function BrowseContainer() {
                   variant="outline"
                   size="icon"
                   className="h-14 w-14 rounded-full border-2 border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive shadow-sm transition-colors duration-200"
-                  onClick={() => swipe('left')}
+                  onClick={() => swipe("left")}
                   disabled={!canSwipe || lastSwipedDirection !== null}
                 >
                   <X className="h-6 w-6" />
@@ -252,7 +269,7 @@ export function BrowseContainer() {
                 <Button
                   size="icon"
                   className="h-14 w-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-sm transition-colors duration-200"
-                  onClick={() => swipe('right')}
+                  onClick={() => swipe("right")}
                   disabled={!canSwipe || lastSwipedDirection !== null}
                 >
                   <Heart className="h-6 w-6" />

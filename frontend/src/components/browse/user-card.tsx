@@ -29,7 +29,7 @@ interface UserCardProps {
   onCardLeftScreen?: () => void;
   direction?: string | null;
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const UserCard = React.forwardRef<any, UserCardProps>(
   ({ user, onSwipe, onCardLeftScreen, direction }, ref) => {
     const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
@@ -185,3 +185,5 @@ export const UserCard = React.forwardRef<any, UserCardProps>(
     );
   }
 );
+
+UserCard.displayName = "UserCard";
