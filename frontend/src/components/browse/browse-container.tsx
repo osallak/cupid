@@ -76,91 +76,65 @@ const MOCK_USERS = [
 export function BrowseContainer() {
   const [users] = React.useState(MOCK_USERS);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 });
-  const [offset, setOffset] = React.useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [direction, setDirection] = React.useState<"left" | "right" | null>(
-    null
-  );
+  const [direction, setDirection] = React.useState<"left" | "right" | null>(null);
   const [outOfUsers, setOutOfUsers] = React.useState(false);
   const [showDetails, setShowDetails] = React.useState(false);
+  const [lastSwipedDirection, setLastSwipedDirection] = React.useState<string | null>(null);
 
   const currentUser = users[currentIndex];
+  const childRefs = React.useMemo(
+    () =>
+      Array(users.length)
+        .fill(0)
+        .map(() => React.createRef<any>()),
+    [users.length]
+  );
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsDragging(true);
+  const canSwipe = currentIndex >= 0;
 
-    // Get client coordinates whether it's touch or mouse
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-    setDragStart({ x: clientX, y: clientY });
+  const swipe = async (dir: string) => {
+    if (canSwipe && currentIndex < users.length) {
+      setLastSwipedDirection(dir);
+      await childRefs[currentIndex].current.swipe(dir);
+    }
   };
 
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging) return;
+  const handleSwipe = (direction: string) => {
+    setDirection(direction as "left" | "right");
+    setLastSwipedDirection(direction);
+    
+    if (direction === 'right') {
+      console.log(`Liked user: ${currentUser.id}`);
+    } else if (direction === 'left') {
+      console.log(`Passed on user: ${currentUser.id}`);
+    }
+    
+    // Add a small delay to allow animations to complete
+    setTimeout(() => {
+      goToNextUser();
+    }, 300);
+  };
 
-    // Get client coordinates whether it's touch or mouse
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-    const newOffsetX = clientX - dragStart.x;
-    const newOffsetY = clientY - dragStart.y;
-
-    setOffset({ x: newOffsetX, y: newOffsetY });
-
-    // Determine direction for UI feedback
-    if (newOffsetX > 50) {
-      setDirection("right");
-    } else if (newOffsetX < -50) {
-      setDirection("left");
-    } else {
+  const handleCardLeftScreen = () => {
+    // We'll reset direction after a delay to allow for a smooth animation
+    setTimeout(() => {
       setDirection(null);
-    }
+      setLastSwipedDirection(null);
+    }, 500);
   };
-
-  const handleLike = () => {
-    // In a real app, you would send this to your API
-    console.log(`Liked user: ${currentUser.id}`);
-
-    goToNextUser();
-  };
-
-  const handlePass = () => {
-    // In a real app, you would send this to your API
-    console.log(`Passed on user: ${currentUser.id}`);
-
-    goToNextUser();
-  };
-
-  const handleDragEnd = React.useCallback(() => {
-    if (!isDragging) return;
-
-    setIsDragging(false);
-
-    // If swiped far enough in either direction, trigger like/pass
-    if (offset.x > 100) {
-      handleLike();
-    } else if (offset.x < -100) {
-      handlePass();
-    }
-
-    // Reset offset and direction
-    setOffset({ x: 0, y: 0 });
-    setDirection(null);
-  }, [isDragging, offset.x, handleLike, handlePass]);
 
   const goToNextUser = () => {
-    if (currentIndex < users.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-      setShowDetails(false);
-    } else {
-      setOutOfUsers(true);
-    }
+    setCurrentIndex((prev) => {
+      const next = prev + 1;
+      if (next >= users.length) {
+        setOutOfUsers(true);
+      }
+      return next;
+    });
+    setShowDetails(false);
   };
 
   const resetUsers = () => {
-    // In a real app, you would fetch new users here
     setCurrentIndex(0);
     setOutOfUsers(false);
   };
@@ -168,20 +142,6 @@ export function BrowseContainer() {
   const toggleDetails = () => {
     setShowDetails(!showDetails);
   };
-
-  // Clean up event listeners
-  React.useEffect(() => {
-    const handleMouseUp = () => handleDragEnd();
-    const handleTouchEnd = () => handleDragEnd();
-
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [handleDragEnd]);
 
   return (
     <div className="container py-6 px-4 md:py-10">
@@ -211,7 +171,7 @@ export function BrowseContainer() {
       </div>
 
       <div className="flex flex-col items-center">
-        {/* Card area - with increased height */}
+        {/* Card area */}
         <div className="relative w-full max-w-sm mx-auto">
           {outOfUsers ? (
             <motion.div
@@ -236,37 +196,46 @@ export function BrowseContainer() {
             </motion.div>
           ) : (
             <div className="space-y-4">
-              {/* Card container with increased height */}
-              <div
-                className="relative h-[580px] w-full touch-none"
-                onMouseDown={handleDragStart}
-                onMouseMove={handleDragMove}
-                onTouchStart={handleDragStart}
-                onTouchMove={handleDragMove}
-              >
-                <motion.div
-                  className={cn(
-                    "absolute left-0 top-0 h-full w-full transition-transform",
-                    isDragging ? "" : "transition-all duration-300"
-                  )}
-                  style={{
-                    transform: `translateX(${offset.x}px) rotate(${
-                      offset.x * 0.05
-                    }deg)`,
-                    opacity: Math.max(1 - Math.abs(offset.x) / 500, 0.8),
-                  }}
-                >
-                  <UserCard user={currentUser} direction={direction} />
-                </motion.div>
+              <div className="relative h-[580px] w-full">
+                {users.map((user, index) => {
+                  if (index < currentIndex) return null;
+                  const isTopCard = index === currentIndex;
+                  // Calculate stacking for cards behind the top card
+                  const stackOffset = (index - currentIndex) * 4; // 4px offset for each card behind
+                  
+                  return (
+                    <div
+                      key={user.id}
+                      className={cn(
+                        "absolute w-full h-full transition-transform",
+                        isTopCard ? "" : "scale-[0.98] pointer-events-none",
+                      )}
+                      style={{ 
+                        zIndex: users.length - index,
+                        transform: isTopCard ? undefined : `translateY(${stackOffset}px) scale(${1 - (index - currentIndex) * 0.02})`,
+                        opacity: isTopCard ? 1 : 1 - (index - currentIndex) * 0.2,
+                      }}
+                    >
+                      <UserCard
+                        ref={childRefs[index]}
+                        user={user}
+                        direction={index === currentIndex ? direction : null}
+                        onSwipe={handleSwipe}
+                        onCardLeftScreen={handleCardLeftScreen}
+                      />
+                    </div>
+                  );
+                })}
               </div>
 
-              {/* Action buttons - now in a row like popular dating apps */}
+              {/* Action buttons */}
               <div className="flex items-center justify-center gap-4 py-3">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-14 w-14 rounded-full border-2 border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive shadow-sm"
-                  onClick={handlePass}
+                  className="h-14 w-14 rounded-full border-2 border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive shadow-sm transition-colors duration-200"
+                  onClick={() => swipe('left')}
+                  disabled={!canSwipe || lastSwipedDirection !== null}
                 >
                   <X className="h-6 w-6" />
                 </Button>
@@ -274,7 +243,7 @@ export function BrowseContainer() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-12 w-12 rounded-full border-2 border-blue-500/20 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500 shadow-sm"
+                  className="h-12 w-12 rounded-full border-2 border-blue-500/20 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500 shadow-sm transition-colors duration-200"
                   onClick={toggleDetails}
                 >
                   <Info className="h-5 w-5" />
@@ -282,8 +251,9 @@ export function BrowseContainer() {
 
                 <Button
                   size="icon"
-                  className="h-14 w-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-sm"
-                  onClick={handleLike}
+                  className="h-14 w-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-sm transition-colors duration-200"
+                  onClick={() => swipe('right')}
+                  disabled={!canSwipe || lastSwipedDirection !== null}
                 >
                   <Heart className="h-6 w-6" />
                 </Button>
@@ -294,11 +264,12 @@ export function BrowseContainer() {
 
         {/* User details panel - slides up from bottom */}
         <AnimatePresence>
-          {showDetails && !outOfUsers && (
+          {showDetails && !outOfUsers && currentUser && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="w-full max-w-sm mx-auto mt-4 rounded-xl bg-card border shadow-lg overflow-hidden"
             >
               <div className="p-5 space-y-4">
