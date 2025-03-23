@@ -146,17 +146,27 @@ export function BrowseContainer() {
   };
 
   const toggleDetails = () => {
-    setShowDetails(!showDetails);
+    setShowDetails((prev) => {
+      // If we're opening the details, scroll to bottom
+      if (!prev) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth'
+          });
+        }, 100); // Small delay to allow animation to start
+      }
+      return !prev;
+    });
   };
 
   return (
-    <div className=" py-6 px-4 md:py-10 bg-gradient-to-b from-pink-50 via-white to-white dark:from-pink-950 dark:via-background dark:to-background p-4 relative">
-      {/* <div className="min-h-screen flex flex-col items-center justify-center  */}
-
+    <div className={cn(
+      "overflow-hidden py-6 px-4 md:py-10 bg-gradient-to-b from-pink-50 via-white to-white dark:from-pink-950 dark:via-background dark:to-background p-4 relative",
+      showDetails && "pb-[40px]" // add extra padding when details are shown
+    )}>
       <FloatingHearts />
-
       {/* Header */}
-
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Discover</h1>
         <Sheet>
@@ -188,7 +198,7 @@ export function BrowseContainer() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex h-[580px] flex-col items-center justify-center rounded-2xl border bg-card p-8 text-center"
+              className="flex h-[calc(100vh-300px)] min-h-[480px] max-h-[700px] flex-col items-center justify-center rounded-2xl border bg-card p-8 text-center"
             >
               <div className="rounded-full bg-rose-100 dark:bg-rose-900/30 p-4 mb-4">
                 <RefreshCw className="h-10 w-10 text-rose-500" />
@@ -207,7 +217,7 @@ export function BrowseContainer() {
             </motion.div>
           ) : (
             <div className="space-y-4">
-              <div className="relative h-[580px] w-full">
+              <div className="relative w-full h-[calc(100vh-300px)] min-h-[480px] max-h-[700px]">
                 {users.map((user, index) => {
                   if (index < currentIndex) return null;
                   const isTopCard = index === currentIndex;
@@ -245,35 +255,37 @@ export function BrowseContainer() {
                 })}
               </div>
 
-              {/* Action buttons */}
-              <div className="flex items-center justify-center gap-4 py-3">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-14 w-14 rounded-full border-2 border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive shadow-sm transition-colors duration-200"
-                  onClick={() => swipe("left")}
-                  disabled={!canSwipe || lastSwipedDirection !== null}
-                >
-                  <X className="h-6 w-6" />
-                </Button>
+              {/* Action buttons - Modified for responsiveness */}
+              <div className="fixed md:relative bottom-0 left-0 right-0 md:bottom-auto bg-background/80 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none border-t md:border-t-0 p-4 md:p-0 z-50">
+                <div className="flex items-center justify-center gap-4 max-w-sm mx-auto">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-14 w-14 rounded-full border-2 border-destructive/20 text-destructive hover:bg-destructive/10 hover:text-destructive hover:border-destructive shadow-sm transition-colors duration-200"
+                    onClick={() => swipe("left")}
+                    disabled={!canSwipe || lastSwipedDirection !== null}
+                  >
+                    <X className="h-6 w-6" />
+                  </Button>
 
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-12 w-12 rounded-full border-2 border-blue-500/20 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500 shadow-sm transition-colors duration-200"
-                  onClick={toggleDetails}
-                >
-                  <Info className="h-5 w-5" />
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-12 w-12 rounded-full border-2 border-blue-500/20 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500 shadow-sm transition-colors duration-200"
+                    onClick={toggleDetails}
+                  >
+                    <Info className="h-5 w-5" />
+                  </Button>
 
-                <Button
-                  size="icon"
-                  className="h-14 w-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-sm transition-colors duration-200"
-                  onClick={() => swipe("right")}
-                  disabled={!canSwipe || lastSwipedDirection !== null}
-                >
-                  <Heart className="h-6 w-6" />
-                </Button>
+                  <Button
+                    size="icon"
+                    className="h-14 w-14 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-sm transition-colors duration-200"
+                    onClick={() => swipe("right")}
+                    disabled={!canSwipe || lastSwipedDirection !== null}
+                  >
+                    <Heart className="h-6 w-6" />
+                  </Button>
+                </div>
               </div>
             </div>
           )}
@@ -287,7 +299,7 @@ export function BrowseContainer() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="w-full max-w-sm mx-auto mt-4 rounded-xl bg-card border shadow-lg overflow-hidden"
+              className="w-full max-w-sm mx-auto mt-4 mb-20 rounded-xl bg-card border shadow-lg overflow-hidden"
             >
               <div className="p-5 space-y-4">
                 <div className="flex items-center justify-between">

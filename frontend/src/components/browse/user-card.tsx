@@ -74,6 +74,8 @@ export const UserCard = React.forwardRef<any, UserCardProps>(
         onSwipe={handleSwipe}
         onCardLeftScreen={onCardLeftScreen}
         className="relative h-full w-full overflow-hidden rounded-xl border shadow-lg"
+        swipeRequirementType="position"
+        preventSwipe={["up", "down"]}
       >
         {/* Centered Swipe Indicator */}
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
